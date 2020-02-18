@@ -21,7 +21,7 @@ To update, run `dotnet tool update --global Doser`
 Usage: Doser [options]
 
 Options:
-  -u|--url <URL>             Required. URL to include in calls
+  -u|--url <URL>             Required. URL to include in calls (can be provided multiple times)
   -m|--method <HTTP_METHOD>  Required. The HTTP method to use (supports: GET, POST)
   -g|--gap                   Required. Gap between requests (in milliseconds)
   -d|--duration              Required. Duration to run the app for (in seconds)
