@@ -5,9 +5,9 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/BlythMeister/Doser)](https://github.com/BlythMeister/Doser/releases/latest)
 [![GitHub issues](https://img.shields.io/github/issues-raw/blythmeister/doser)](https://github.com/BlythMeister/Doser/issues)
 
-A command line application call paket in standard folder structures and chain multiple commands together.
+A command line application which enables calling/posting on mass in order to test applications under load.
 
-With added ability to sort dependencies and references files alphabetically prior to install.
+The application can also be used to ensure API up-time during a deployment due to the near constant volume being sent.
 
 # Installation
 
