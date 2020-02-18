@@ -11,7 +11,7 @@ namespace Doser
     internal class RunnerArgs
     {
         [Required]
-        [Option("-u|--url <URL>", "Required. URL to include in calls", CommandOptionType.MultipleValue)]
+        [Option("-u|--url <URL>", "Required. URL to include in calls (can be provided multiple times)", CommandOptionType.MultipleValue)]
         public List<string> Urls { get; }
 
         [Required]
