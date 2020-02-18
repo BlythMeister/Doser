@@ -2,7 +2,7 @@
 
 [![AppVeyor branch](https://img.shields.io/appveyor/ci/blythmeister/doser)](https://ci.appveyor.com/project/BlythMeister/Doser)
 [![Nuget](https://img.shields.io/nuget/v/doser)](https://www.nuget.org/packages/Doser/)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/BlythMeister/PaketChain)](https://github.com/BlythMeister/Doser/releases/latest)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/BlythMeister/Doser)](https://github.com/BlythMeister/Doser/releases/latest)
 [![GitHub issues](https://img.shields.io/github/issues-raw/blythmeister/doser)](https://github.com/BlythMeister/Doser/issues)
 
 A command line application call paket in standard folder structures and chain multiple commands together.
