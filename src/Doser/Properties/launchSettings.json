@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Doser": {
+      "commandName": "Project",
+      "commandLineArgs": "--help"
+    }
+  }
+}

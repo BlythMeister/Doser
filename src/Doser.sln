@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{35406A7D-3080-48C8-8316-FBAF521D7297}"
+	ProjectSection(SolutionItems) = preProject
+		..\paket.dependencies = ..\paket.dependencies
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".appVeyor", ".appVeyor", "{6BA0663D-78B2-47B3-8274-C76D66E38946}"
+	ProjectSection(SolutionItems) = preProject
+		..\appveyor.yml = ..\appveyor.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{B4C80262-E73D-4118-B5E5-73B860839F59}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\FUNDING.yml = ..\.github\FUNDING.yml
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doser", "Doser\Doser.csproj", "{68EC700F-8C62-49DC-83EA-6E676653382E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Debug|x64.Build.0 = Debug|Any CPU
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Debug|x86.Build.0 = Debug|Any CPU
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Release|x64.ActiveCfg = Release|Any CPU
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Release|x64.Build.0 = Release|Any CPU
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Release|x86.ActiveCfg = Release|Any CPU
+		{68EC700F-8C62-49DC-83EA-6E676653382E}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1E4E3B38-86D4-49E5-9636-1DC0422D5564}
+	EndGlobalSection
+EndGlobal
