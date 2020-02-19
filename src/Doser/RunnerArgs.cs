@@ -35,7 +35,7 @@ namespace Doser
         public string AcceptMime { get; }
 
         [FileExists]
-        [Option("-pf|--payload-file <FILE_PATH>", "A file to use of post as payload content (can be provided multiple times)", CommandOptionType.SingleValue)]
+        [Option("-pf|--payload-file <FILE_PATH>", "A file to use of post as payload content (can be provided multiple times)", CommandOptionType.MultipleValue)]
         public string[] PayloadFiles { get; }
 
         public Lazy<Dictionary<string, string>> PayloadFilesContent => new Lazy<Dictionary<string, string>>(() => PayloadFiles.Select(x => new KeyValuePair<string, string>(x, File.ReadAllText(x))).ToDictionary(pair => pair.Key, pair => pair.Value));
@@ -46,6 +46,9 @@ namespace Doser
         [DirectoryExists]
         [Option("-od|--output-dir", "A directory to output all HTTP request/responses", CommandOptionType.SingleValue)]
         public string OutputDir { get; }
+
+        [Option("-wm|--watch-mode", "Only log HTTP status changes", CommandOptionType.NoValue)]
+        public bool WatchMode { get; }
 
         [Option("-lfo|--log-failures-only", "Only log non-success HTTP responses", CommandOptionType.NoValue)]
         public bool LogFailuresOnly { get; }

@@ -141,9 +141,11 @@ namespace Doser
                     client.DefaultRequestHeaders.Add("Accept", runnerArgs.AcceptMime);
                 }
 
+                WebResult lastResult = null;
                 while (runTimer.Elapsed <= runDuration && !cancellationToken.IsCancellationRequested)
                 {
-                    await DoRun(runnerArgs, client);
+                    lastResult = await DoRun(runnerArgs, client, i, lastResult);
+                    results.Add(lastResult);
                     await Task.Delay(gapDuration, cancellationToken);
                 }
             }, cancellationToken)));
@@ -159,7 +161,7 @@ namespace Doser
             return 0;
         }
 
-        private static async Task DoRun(RunnerArgs runnerArgs, HttpClient client)
+        private static async Task<WebResult> DoRun(RunnerArgs runnerArgs, HttpClient client, int parallelThreadNumber, WebResult lastResult)
         {
             var url = runnerArgs.Urls[rand.Next(runnerArgs.Urls.Length)];
             var stopwatch = new Stopwatch();
@@ -178,26 +180,36 @@ namespace Doser
             else
             {
                 Console.WriteLine($"Unknown method {runnerArgs.HttpMethod}");
-                return;
+                return null;
             }
 
             stopwatch.Stop();
             var result = new WebResult(response.StatusCode, stopwatch.Elapsed);
-            results.Add(result);
 #pragma warning disable 4014
             Task.Run(() =>
             {
+                var currentTimeString = DateTime.UtcNow.ToString("T");
                 var runRequestNumber = Interlocked.Increment(ref requestNumber);
-                if (runnerArgs.LogFailuresOnly)
+                if (runnerArgs.WatchMode)
                 {
-                    if (!response.IsSuccessStatusCode)
+                    if (lastResult == null || lastResult.StatusCode != result.StatusCode)
                     {
-                        Console.WriteLine($"[{runRequestNumber}] - Got {result.StatusCode} after {result.DurationMs}ms on {url}");
+                        Console.WriteLine($"{currentTimeString} [THR:{parallelThreadNumber}] [REQ:{runRequestNumber}] Current Status Code: {result.StatusCode} ");
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"[{runRequestNumber}] - Got {result.StatusCode} after {result.DurationMs}ms on {url}");
+                    if (runnerArgs.LogFailuresOnly)
+                    {
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            Console.WriteLine($"{currentTimeString} [THR:{parallelThreadNumber}] [REQ:{runRequestNumber}] Got {result.StatusCode} after {result.DurationMs}ms on {url}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{currentTimeString} [THR:{parallelThreadNumber}] [REQ:{runRequestNumber}] Got {result.StatusCode} after {result.DurationMs}ms on {url}");
+                    }
                 }
 
                 if (!string.IsNullOrWhiteSpace(runnerArgs.OutputDir))
@@ -212,6 +224,7 @@ namespace Doser
                 }
             });
 #pragma warning restore 4014
+            return result;
         }
     }
 }
