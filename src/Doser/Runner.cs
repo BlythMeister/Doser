@@ -71,30 +71,33 @@ namespace Doser
 
         private static async Task<int> Run(RunnerArgs runnerArgs, CancellationToken cancellationToken)
         {
-            Console.WriteLine("URLs:");
-            foreach (var url in runnerArgs.Urls)
+            if (runnerArgs.Verbose)
             {
-                Console.WriteLine($"  * {url}");
+                Console.WriteLine("URLs:");
+                foreach (var url in runnerArgs.Urls)
+                {
+                    Console.WriteLine($"  * {url}");
+                }
+
+                Console.WriteLine("");
+                Console.WriteLine("Run Details:");
+                Console.WriteLine($"  * Request type: {runnerArgs.HttpMethod}");
+                Console.WriteLine($"  * Gap between requests: {runnerArgs.RequestGap}ms");
+                Console.WriteLine($"  * Parallel runners: {runnerArgs.ParallelCount}");
+                Console.WriteLine($"  * Run duration: {runnerArgs.Duration}");
+
+                Console.WriteLine("");
+                Console.WriteLine("Content Details:");
+                Console.WriteLine(!string.IsNullOrWhiteSpace(runnerArgs.AcceptMime) ? $"  * Accept MIME type: {runnerArgs.AcceptMime}" : "  * Accept MIME type: <NONE>");
+                if (runnerArgs.HttpMethod.Equals("post", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    Console.WriteLine(!string.IsNullOrWhiteSpace(runnerArgs.PayloadFile) ? $"  * Upload payload file: {runnerArgs.PayloadFile}" : "  * Upload payload file: <NONE>");
+                    Console.WriteLine(!string.IsNullOrWhiteSpace(runnerArgs.PayloadMime) ? $"  * Payload file MIME type: {runnerArgs.PayloadMime}" : "  * Payload file MIME type: <NONE>");
+                }
+
+                Console.WriteLine("-----------------------------------------------------");
+                if (cancellationToken.IsCancellationRequested) return -2;
             }
-
-            Console.WriteLine("");
-            Console.WriteLine("Run Details:");
-            Console.WriteLine($"  * Request type: {runnerArgs.HttpMethod}");
-            Console.WriteLine($"  * Gap between requests: {runnerArgs.RequestGap}ms");
-            Console.WriteLine($"  * Parallel runners: {runnerArgs.ParallelCount}");
-            Console.WriteLine($"  * Run duration: {runnerArgs.Duration}");
-
-            Console.WriteLine("");
-            Console.WriteLine("Content Details:");
-            Console.WriteLine(!string.IsNullOrWhiteSpace(runnerArgs.AcceptMime) ? $"  * Accept MIME type: {runnerArgs.AcceptMime}" : "  * Accept MIME type: <NONE>");
-            if (runnerArgs.HttpMethod.Equals("post", StringComparison.InvariantCultureIgnoreCase))
-            {
-                Console.WriteLine(!string.IsNullOrWhiteSpace(runnerArgs.PayloadFile) ? $"  * Upload payload file: {runnerArgs.PayloadFile}" : "  * Upload payload file: <NONE>");
-                Console.WriteLine(!string.IsNullOrWhiteSpace(runnerArgs.PayloadMime) ? $"  * Payload file MIME type: {runnerArgs.PayloadMime}" : "  * Payload file MIME type: <NONE>");
-            }
-
-            Console.WriteLine("-----------------------------------------------------");
-            if (cancellationToken.IsCancellationRequested) return -2;
 
             var runTimer = new Stopwatch();
             var runDuration = TimeSpan.FromSeconds(runnerArgs.Duration);
