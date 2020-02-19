@@ -20,27 +20,27 @@ namespace Doser
         public string HttpMethod { get; }
 
         [Required]
-        [Option("-g|--gap", "Required. Gap between requests (in milliseconds)", CommandOptionType.SingleValue)]
+        [Option("-g|--gap <DURATION>", "Required. Gap between requests (in milliseconds)", CommandOptionType.SingleValue)]
         public int RequestGap { get; }
 
         [Required]
-        [Option("-d|--duration", "Required. Duration to run the app for (in seconds)", CommandOptionType.SingleValue)]
+        [Option("-d|--duration <DURATION>", "Required. Duration to run the app for (in seconds)", CommandOptionType.SingleValue)]
         public int Duration { get; }
 
         [Required]
-        [Option("-p|--parallel", "Required. The number of parallel instances", CommandOptionType.SingleValue)]
+        [Option("-p|--parallel <NUMBER>", "Required. The number of parallel instances", CommandOptionType.SingleValue)]
         public int ParallelCount { get; }
 
-        [Option("-am|--accept-mime", "The MimeType for accept", CommandOptionType.SingleValue)]
+        [Option("-am|--accept-mime <MIME_TYPE>", "The MimeType for accept", CommandOptionType.SingleValue)]
         public string AcceptMime { get; }
 
         [FileExists]
-        [Option("-pf|--payload-file", "A file to use of post as payload content", CommandOptionType.SingleValue)]
+        [Option("-pf|--payload-file <FILE_PATH>", "A file to use of post as payload content", CommandOptionType.SingleValue)]
         public string PayloadFile { get; }
 
         public Lazy<string> PayloadFileContent => new Lazy<string>(() => string.IsNullOrWhiteSpace(PayloadFile) ? string.Empty : File.ReadAllText(PayloadFile, Encoding.UTF8));
 
-        [Option("-pm|--payload-mime", "The MimeType for the payload", CommandOptionType.SingleValue)]
+        [Option("-pm|--payload-mime <MIME_TYPE>", "The MimeType for the payload", CommandOptionType.SingleValue)]
         public string PayloadMime { get; }
 
         [Option("-np|--no-prompt", "Never prompt user input", CommandOptionType.NoValue)]
