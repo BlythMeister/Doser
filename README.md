@@ -21,17 +21,20 @@ To update, run `dotnet tool update --global Doser`
 Usage: Doser [options]
 
 Options:
-  -u|--url <URL>             Required. URL to include in calls (can be provided multiple times)
-  -m|--method <HTTP_METHOD>  Required. The HTTP method to use (supports: GET, POST)
-  -g|--gap                   Required. Gap between requests (in milliseconds)
-  -d|--duration              Required. Duration to run the app for (in seconds)
-  -p|--parallel              Required. The number of parallel instances
-  -am|--accept-mime          The MimeType for accept
-  -pf|--payload-file         A file to use of post as payload content
-  -pm|--payload-mime         The MimeType for the payload
-  -np|--no-prompt            Never prompt user input
-  -v|--verbose               Verbose logging
-  -?|-h|--help               Show help information
+  -u|--url <URL>                  Required. URL to include in calls (can be provided multiple times)
+  -m|--method <HTTP_METHOD>       Required. The HTTP method to use (supports: GET, POST)
+  -g|--gap <DURATION>             Required. Gap between requests (in milliseconds)
+  -d|--duration <DURATION>        Required. Duration to run the app for (in seconds)
+  -p|--parallel <NUMBER>          Required. The number of parallel instances
+  -am|--accept-mime <MIME_TYPE>   The MimeType for accept
+  -pf|--payload-file <FILE_PATH>  A file to use of post as payload content (can be provided multiple times)
+  -pm|--payload-mime <MIME_TYPE>  The MimeType for the payload
+  -od|--output-dir                A directory to output all HTTP request/responses
+  -wm|--watch-mode                Only log HTTP status changes
+  -lfo|--log-failures-only        Only log non-success HTTP responses
+  -v|--verbose                    Verbose logging
+  -np|--no-prompt                 Never prompt user input
+  -?|-h|--help                    Show help information
 ```
 
 # 3rd Party Libraries
