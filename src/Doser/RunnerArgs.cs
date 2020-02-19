@@ -43,11 +43,14 @@ namespace Doser
         [Option("-pm|--payload-mime <MIME_TYPE>", "The MimeType for the payload", CommandOptionType.SingleValue)]
         public string PayloadMime { get; }
 
-        [Option("-np|--no-prompt", "Never prompt user input", CommandOptionType.NoValue)]
-        public bool NoPrompt { get; }
+        [Option("-lfo|--log-failures-only", "Only log non-success HTTP responses", CommandOptionType.NoValue)]
+        public bool LogFailuresOnly { get; }
 
         [Option("-v|--verbose", "Verbose logging", CommandOptionType.NoValue)]
         public bool Verbose { get; }
+
+        [Option("-np|--no-prompt", "Never prompt user input", CommandOptionType.NoValue)]
+        public bool NoPrompt { get; }
 
         private int OnExecute(CancellationToken cancellationToken) => Runner.Start(this, cancellationToken);
     }

@@ -165,7 +165,17 @@ namespace Doser
             stopwatch.Stop();
             var result = new WebResult(response.StatusCode, stopwatch.Elapsed);
             results.Add(result);
-            Console.WriteLine($"Got {result.StatusCode} after {result.DurationMs}ms on {url}");
+            if (runnerArgs.LogFailuresOnly)
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Got {result.StatusCode} after {result.DurationMs}ms on {url}");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Got {result.StatusCode} after {result.DurationMs}ms on {url}");
+            }
         }
     }
 }
