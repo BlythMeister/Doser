@@ -160,10 +160,9 @@ namespace Doser
             }
 
             stopwatch.Stop();
-            var contentLength = (await response.Content.ReadAsByteArrayAsync()).Length;
-            var result = new WebResult(response.StatusCode, stopwatch.Elapsed, contentLength);
+            var result = new WebResult(response.StatusCode, stopwatch.Elapsed);
             results.Add(result);
-            Console.WriteLine($"Got {result.StatusCode} after {result.DurationMs}ms with a content length of {result.SizeKb}kb on {url}");
+            Console.WriteLine($"Got {result.StatusCode} after {result.DurationMs}ms on {url}");
         }
     }
 }

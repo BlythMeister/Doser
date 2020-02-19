@@ -7,17 +7,12 @@ namespace Doser
     {
         public HttpStatusCode StatusCode { get; }
         public TimeSpan Duration { get; }
-        public int Size { get; }
-
         public double DurationMs => Math.Round(Duration.TotalMilliseconds, 2);
 
-        public double SizeKb => Math.Round(Size / 1000d, 2);
-
-        public WebResult(HttpStatusCode statusCode, TimeSpan duration, int size)
+        public WebResult(HttpStatusCode statusCode, TimeSpan duration)
         {
             StatusCode = statusCode;
             Duration = duration;
-            Size = size;
         }
     }
 }
