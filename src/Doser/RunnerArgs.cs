@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Text;
+using System.Linq;
 using System.Threading;
 
 namespace Doser
@@ -12,7 +12,7 @@ namespace Doser
     {
         [Required]
         [Option("-u|--url <URL>", "Required. URL to include in calls (can be provided multiple times)", CommandOptionType.MultipleValue)]
-        public List<string> Urls { get; }
+        public string[] Urls { get; }
 
         [Required]
         [AllowedValues("get", "post", IgnoreCase = true)]
@@ -35,10 +35,10 @@ namespace Doser
         public string AcceptMime { get; }
 
         [FileExists]
-        [Option("-pf|--payload-file <FILE_PATH>", "A file to use of post as payload content", CommandOptionType.SingleValue)]
-        public string PayloadFile { get; }
+        [Option("-pf|--payload-file <FILE_PATH>", "A file to use of post as payload content (can be provided multiple times)", CommandOptionType.SingleValue)]
+        public string[] PayloadFiles { get; }
 
-        public Lazy<string> PayloadFileContent => new Lazy<string>(() => string.IsNullOrWhiteSpace(PayloadFile) ? string.Empty : File.ReadAllText(PayloadFile, Encoding.UTF8));
+        public Lazy<Dictionary<string, string>> PayloadFilesContent => new Lazy<Dictionary<string, string>>(() => PayloadFiles.Select(x => new KeyValuePair<string, string>(x, File.ReadAllText(x))).ToDictionary(pair => pair.Key, pair => pair.Value));
 
         [Option("-pm|--payload-mime <MIME_TYPE>", "The MimeType for the payload", CommandOptionType.SingleValue)]
         public string PayloadMime { get; }

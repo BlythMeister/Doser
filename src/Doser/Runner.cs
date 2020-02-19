@@ -97,7 +97,18 @@ namespace Doser
                 Console.WriteLine(!string.IsNullOrWhiteSpace(runnerArgs.AcceptMime) ? $"  * Accept MIME type: {runnerArgs.AcceptMime}" : "  * Accept MIME type: <NONE>");
                 if (runnerArgs.HttpMethod.Equals("post", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    Console.WriteLine(!string.IsNullOrWhiteSpace(runnerArgs.PayloadFile) ? $"  * Upload payload file: {runnerArgs.PayloadFile}" : "  * Upload payload file: <NONE>");
+                    if (runnerArgs.PayloadFiles.Any())
+                    {
+                        Console.WriteLine("  *Payload files:");
+                        foreach (var payloadFile in runnerArgs.PayloadFiles)
+                        {
+                            Console.WriteLine($"    * {payloadFile}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Payload files: <NONE>");
+                    }
                     Console.WriteLine(!string.IsNullOrWhiteSpace(runnerArgs.PayloadMime) ? $"  * Payload file MIME type: {runnerArgs.PayloadMime}" : "  * Payload file MIME type: <NONE>");
                 }
 
@@ -150,7 +161,7 @@ namespace Doser
 
         private static async Task DoRun(RunnerArgs runnerArgs, HttpClient client)
         {
-            var url = runnerArgs.Urls[rand.Next(runnerArgs.Urls.Count)];
+            var url = runnerArgs.Urls[rand.Next(runnerArgs.Urls.Length)];
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             HttpResponseMessage response;
@@ -161,7 +172,8 @@ namespace Doser
             }
             else if (runnerArgs.HttpMethod.Equals("post", StringComparison.InvariantCultureIgnoreCase))
             {
-                response = await client.PostAsync(url, new StringContent(runnerArgs.PayloadFileContent.Value, Encoding.UTF8, runnerArgs.PayloadMime));
+                var payloadFileName = runnerArgs.PayloadFiles[rand.Next(runnerArgs.PayloadFiles.Length)];
+                response = await client.PostAsync(url, new StringContent(runnerArgs.PayloadFilesContent.Value[payloadFileName], Encoding.UTF8, runnerArgs.PayloadMime));
             }
             else
             {
