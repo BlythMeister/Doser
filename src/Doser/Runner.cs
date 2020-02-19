@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,11 +19,14 @@ namespace Doser
         {
             try
             {
+                var assemblyLocation = Assembly.GetExecutingAssembly().Location;
+                var version = FileVersionInfo.GetVersionInfo(assemblyLocation).ProductVersion;
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("");
                 Console.WriteLine("----------------------------");
                 Console.WriteLine("|                          |");
                 Console.WriteLine("|           Doser          |");
+                Console.WriteLine($"|{version.PadLeft(10 + version.Length).PadRight(26)}|");
                 Console.WriteLine("|                          |");
                 Console.WriteLine("|    Author: Chris Blyth   |");
                 Console.WriteLine("|                          |");
