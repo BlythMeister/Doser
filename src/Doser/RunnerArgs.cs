@@ -43,6 +43,10 @@ namespace Doser
         [Option("-pm|--payload-mime <MIME_TYPE>", "The MimeType for the payload", CommandOptionType.SingleValue)]
         public string PayloadMime { get; }
 
+        [DirectoryExists]
+        [Option("-od|--output-dir", "A directory to output all HTTP request/responses", CommandOptionType.SingleValue)]
+        public string OutputDir { get; }
+
         [Option("-lfo|--log-failures-only", "Only log non-success HTTP responses", CommandOptionType.NoValue)]
         public bool LogFailuresOnly { get; }
 

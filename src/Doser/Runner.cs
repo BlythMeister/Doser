@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,6 +15,9 @@ namespace Doser
     internal static class Runner
     {
         private static ConcurrentBag<WebResult> results;
+        private static Random rand;
+        private static int requestNumber;
+        private static Guid testRunIdentifier;
 
         public static int Start(RunnerArgs runnerArgs, CancellationToken cancellationToken)
         {
@@ -71,6 +75,7 @@ namespace Doser
 
         private static async Task<int> Run(RunnerArgs runnerArgs, CancellationToken cancellationToken)
         {
+            testRunIdentifier = Guid.NewGuid();
             if (runnerArgs.Verbose)
             {
                 Console.WriteLine("URLs:");
@@ -81,6 +86,7 @@ namespace Doser
 
                 Console.WriteLine("");
                 Console.WriteLine("Run Details:");
+                Console.WriteLine($"  * Test run identifier: {testRunIdentifier}");
                 Console.WriteLine($"  * Request type: {runnerArgs.HttpMethod}");
                 Console.WriteLine($"  * Gap between requests: {runnerArgs.RequestGap}ms");
                 Console.WriteLine($"  * Parallel runners: {runnerArgs.ParallelCount}");
@@ -103,6 +109,8 @@ namespace Doser
             var runDuration = TimeSpan.FromSeconds(runnerArgs.Duration);
             var gapDuration = TimeSpan.FromMilliseconds(runnerArgs.RequestGap);
             results = new ConcurrentBag<WebResult>();
+            rand = new Random();
+            requestNumber = 0;
 
             using var clientHandler = new HttpClientHandler
             {
@@ -142,7 +150,6 @@ namespace Doser
 
         private static async Task DoRun(RunnerArgs runnerArgs, HttpClient client)
         {
-            var rand = new Random();
             var url = runnerArgs.Urls[rand.Next(runnerArgs.Urls.Count)];
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -165,17 +172,34 @@ namespace Doser
             stopwatch.Stop();
             var result = new WebResult(response.StatusCode, stopwatch.Elapsed);
             results.Add(result);
-            if (runnerArgs.LogFailuresOnly)
+#pragma warning disable 4014
+            Task.Run(() =>
             {
-                if (!response.IsSuccessStatusCode)
+                var runRequestNumber = Interlocked.Increment(ref requestNumber);
+                if (runnerArgs.LogFailuresOnly)
                 {
-                    Console.WriteLine($"Got {result.StatusCode} after {result.DurationMs}ms on {url}");
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine($"[{runRequestNumber}] - Got {result.StatusCode} after {result.DurationMs}ms on {url}");
+                    }
                 }
-            }
-            else
-            {
-                Console.WriteLine($"Got {result.StatusCode} after {result.DurationMs}ms on {url}");
-            }
+                else
+                {
+                    Console.WriteLine($"[{runRequestNumber}] - Got {result.StatusCode} after {result.DurationMs}ms on {url}");
+                }
+
+                if (!string.IsNullOrWhiteSpace(runnerArgs.OutputDir))
+                {
+                    var subDirNumber = Math.Floor(runRequestNumber / 10d) * 10;
+                    var subDir = $"{subDirNumber}-{subDirNumber + 9}";
+                    var outputDir = Path.Combine(runnerArgs.OutputDir, testRunIdentifier.ToString(), subDir);
+                    Directory.CreateDirectory(outputDir);
+                    File.WriteAllText(Path.Combine(outputDir, $"{runRequestNumber}_ResponseHeaders.txt"), response.Headers.ToString());
+                    File.WriteAllText(Path.Combine(outputDir, $"{runRequestNumber}_ContentHeaders.txt"), response.Content.Headers.ToString());
+                    File.WriteAllText(Path.Combine(outputDir, $"{runRequestNumber}_ContentBody.txt"), response.Content.ReadAsStringAsync().Result);
+                }
+            });
+#pragma warning restore 4014
         }
     }
 }
