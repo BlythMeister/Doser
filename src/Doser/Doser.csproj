@@ -21,7 +21,8 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <PackageReleaseNotes></PackageReleaseNotes>
-    <PackageProjectUrl>https://github.com/BlythMeister/Doser</PackageProjectUrl>
+    <PackageProjectUrl>https://doser.blyth.me.uk/
+</PackageProjectUrl>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\.assets\logo.png">
